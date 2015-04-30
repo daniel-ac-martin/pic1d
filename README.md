@@ -41,9 +41,9 @@ Please see the INSTALL file.
 Usage
 =====
 
-Please see the full documentation, either by running `info pic1d' or by
+Please see the full documentation, either by running 'info pic1d' or by
 viewing the files in the doc/ directory of this package. Additionally, 
-the output of `plasma --help' should give you some rough guidance.
+the output of 'plasma --help' should give you some rough guidance.
 
 Example - The 2-stream instability
 ----------------------------------
