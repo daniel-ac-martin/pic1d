@@ -217,7 +217,7 @@ int GnuPlotMain::Draw(bool light)
     x.clear();
     y.clear();
 	
-	for (i = 0; i < Particles.Elements; i++)
+	for (i = 0; i < Particles.size(); i++)
 	{
 		x.push_back(Particles[i].r);
 		y.push_back(Particles[i].v);

@@ -24,6 +24,9 @@
 #include <cmath>
 #include <string.h>
 
+using std::cerr;
+using std::endl;
+
 const char * argp_program_version     = NAME_AND_VERSION;
 const char * argp_program_bug_address = EMAIL;
 
@@ -58,25 +61,25 @@ char const * Arguments::ArgsExample = "-l 6.283 -p 512 -t 0.1 -T 500 -W 1";
 
 arguments Arguments::Defaults =
 {
-	false,         //debug
-	GNUPLOT_GUI,   //gui
-	false,         //gui_set
-	"/dev/null",   //output - FIXME: Fix for windows?!
-	false,         //output_set
-	0,             //energy_or_momentum
-	false,         //energy_or_momentum_set
-	256,           //points
-	false,         //points_set
-	2 * M_PI,      //length
-	false,         //length_set
-	0,             //species
-	0,             //time_step
-	false,         //time_step_set
-	256,           //total_time_steps
-	false,         //total_time_steps_set
-	1,             //weighting
-	false,         //weighting_set
-	false          //verbose
+	false,                            //debug
+	GNUPLOT_GUI,                      //gui
+	false,                            //gui_set
+	"/dev/null",                      //output - FIXME: Fix for windows?!
+	false,                            //output_set
+	0,                                //energy_or_momentum
+	false,                            //energy_or_momentum_set
+	256,                              //points
+	false,                            //points_set
+	2 * M_PI,                         //length
+	false,                            //length_set
+	vector<species_arguments>(), //species
+	0,                                //time_step
+	false,                            //time_step_set
+	256,                              //total_time_steps
+	false,                            //total_time_steps_set
+	1,                                //weighting
+	false,                            //weighting_set
+	false                             //verbose
 };
 
 argp_option Arguments::SpeciesOptions[] = 
@@ -195,8 +198,8 @@ error_t Arguments::Parse(int key, char * value, argp_state * state)
 			else
 			{
 				// Inform the user of his/her options.
-				std::cerr << "GUI must be one of; gnuplot, null, wxwidgets.\n"
-				          << std::endl;
+				cerr << "GUI must be one of; gnuplot, null, wxwidgets.\n"
+				     << endl;
 				argp_usage(state);
 			}
 			break;
@@ -210,8 +213,8 @@ error_t Arguments::Parse(int key, char * value, argp_state * state)
 			else
 			{
 				// `value' is nonsense.
-				std::cerr << "Choices for conservation schemes are `m' (momentum - recommended) or `e' (energy).\n"
-				          << std::endl;
+				cerr << "Choices for conservation schemes are `m' (momentum - recommended) or `e' (energy).\n"
+				     << endl;
 				argp_usage(state);
 			}
 			Args->energy_or_momentum_set = true;
@@ -222,8 +225,8 @@ error_t Arguments::Parse(int key, char * value, argp_state * state)
 			if( (strcmp(test, "") != 0) || (Args->length <= 0.0) )
 			{
 				// `value' is nonsense.
-				std::cerr << "LENGTH must be a positive, non-zero number.\n"
-				          << std::endl;
+				cerr << "LENGTH must be a positive, non-zero number.\n"
+				     << endl;
 				argp_usage(state);
 			}
 			Args->length_set = true;
@@ -233,18 +236,19 @@ error_t Arguments::Parse(int key, char * value, argp_state * state)
 			if(Args->points <= 0)
 			{
 				// `value' is nonsense.
-				std::cerr << "NUMBER must be a positive, non-zero integer, and should be a power of 2.\n"
-				          << std::endl;
+				cerr << "NUMBER must be a positive, non-zero integer, and should be a power of 2.\n"
+				     << endl;
 				argp_usage(state);
 			}
 			Args->points_set = true;
 			break;
 		case 'S':
-			Args->species.Push(Arguments::SpeciesDefaults);
+			Args->species.push_back(Arguments::SpeciesDefaults);
 			if(value != NULL)
 			{
-				strcpy(Args->species[Args->species.Elements - 1].name, value);
-				Args->species[Args->species.Elements - 1].name_set = true;
+				strcpy(Args->species[Args->species.size() - 1].name, value);
+				
+				Args->species[Args->species.size() - 1].name_set = true;
 			}
 			break;
 		case 't':
@@ -253,8 +257,8 @@ error_t Arguments::Parse(int key, char * value, argp_state * state)
 			if( (strcmp(test, "") != 0) || (Args->time_step == 0.0) )
 			{
 				// `value' is nonsense.
-				std::cerr << "STEP must be a non-zero number.\n"
-				          << std::endl;
+				cerr << "STEP must be a non-zero number.\n"
+				     << endl;
 				argp_usage(state);
 			}
 			Args->time_step_set = true;
@@ -264,8 +268,8 @@ error_t Arguments::Parse(int key, char * value, argp_state * state)
 			if(Args->total_time_steps <= 0)
 			{
 				// `value' is nonsense.
-				std::cerr << "NUMBER must be a positive, non-zero integer.\n"
-				          << std::endl;
+				cerr << "NUMBER must be a positive, non-zero integer.\n"
+				     << endl;
 				argp_usage(state);
 			}
 			Args->total_time_steps_set = true;
@@ -276,8 +280,8 @@ error_t Arguments::Parse(int key, char * value, argp_state * state)
 			else
 			{
 				// `value' is nonsense.
-				std::cerr << "Choices for weighting schemes are `0' (0th order - NGP) or `1' (1st order - CIC).\n"
-				          << std::endl;
+				cerr << "Choices for weighting schemes are `0' (0th order - NGP) or `1' (1st order - CIC).\n"
+				     << endl;
 				argp_usage(state);
 			}
 			Args->weighting_set = true;
@@ -311,7 +315,7 @@ error_t Arguments::SpeciesParse(int key, char * value, argp_state * state)
 {
 	arguments * Args = reinterpret_cast<arguments *>(state->input);
 	char * test = NULL;
-	int n = Args->species.Elements - 1;
+	int n = Args->species.size() - 1;
 	
 	if(n >= 0)
 	{

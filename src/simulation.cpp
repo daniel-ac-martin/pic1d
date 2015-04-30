@@ -38,8 +38,8 @@ void Simulation::SimulationCommon(arguments Args)
 	Weighting     = (Args.weighting_set) ? Args.weighting : 1;
 	InitialEnergy = 0;
 	n = 0;
-	Array< species<double> > Species(Args.species.Elements);
-	while(n < Species.Elements)
+	vector< species<double> > Species(Args.species.size());
+	while(n < Species.size())
 	{
 		Species[n].name             = (Args.species[n].name_set)        ? Args.species[n].name        : "";
 		Species[n].particles        = (Args.species[n].particles_set)   ? Args.species[n].particles   : 8 * GridCells;
@@ -63,10 +63,10 @@ void Simulation::SimulationCommon(arguments Args)
 		          << "Time step:         " << TimeIncrement << "\n"
 		          << "Final time:        " << FinalTime << "\n"
 		          << "Weighting:         " << Weighting << "\n"
-		          << "Number of species: " << Species.Elements << "\n"
+		          << "Number of species: " << Species.size() << "\n"
 		          << std::endl;
 		n = 0;
-		while(n < Species.Elements)
+		while(n < Species.size())
 		{
 			std::cout << "Species " << n << ":\n"
 			          << "\tName:                 " << Species[n].name << "\n"
@@ -84,11 +84,11 @@ void Simulation::SimulationCommon(arguments Args)
 		}
 	}
 	
-	Array<double>  ChargeDensity(GridCells);
-	Array<complex> ChargeDensityK(GridCells);
-	Array<double>  ChargeDensityTest(GridCells);
-	Array<double>  ESPotential(GridCells);
-	Array<double>  EField(GridCells);
+	vector<double>  ChargeDensity(GridCells);
+	vector<complex> ChargeDensityK(GridCells);
+	vector<double>  ChargeDensityTest(GridCells);
+	vector<double>  ESPotential(GridCells);
+	vector<double>  EField(GridCells);
 	n = 0;
 	while(n < GridCells)
 	{
@@ -126,12 +126,12 @@ void Simulation::DefaultSetup()
 	int a = 0;
 	int b = 0;
 	int c = 0;
-	while(a < Species.Elements)
+	while(a < Species.size())
 	{
 		N += Species[a].particles;
 		a++;
 	}
-	Array< particle<double> > Particles(N);
+	vector< particle<double> > Particles(N);
 	double Spacing;
 	double w;
 	double q;
@@ -146,7 +146,7 @@ void Simulation::DefaultSetup()
 	a = 0;
 	b = 0;
 	c = 0;
-	while(a < Species.Elements)
+	while(a < Species.size())
 	{
 		Spacing = GridLength / ((double)Species[a].particles);
 		w = Species[a].plasma_frequency;
@@ -178,7 +178,7 @@ void Simulation::DefaultSetup()
 	//
 	int N = 2 * 8 * lround((GridFinish - GridStart) / GridIncrement);
 	//int N = 1;
-	Array< particle<double> > Particles(N);
+	vector< particle<double> > Particles(N);
 	double GridLength = GridFinish - GridStart;
 	double Spacing    = GridLength / ((double)N/2.0);
 	double n0         = 1 / Spacing;
@@ -222,7 +222,7 @@ void Simulation::DefaultSetup()
 	Setup(Particles);
 }
 
-int Simulation::Setup(Array< particle<double> > NewParticles)
+int Simulation::Setup(vector< particle<double> > NewParticles)
 {
 	int result = 0;
 	
@@ -239,13 +239,13 @@ int Simulation::Setup(Array< particle<double> > NewParticles)
 	//
 	if(TimeIncrement != 0)
 	{
-		int    N       = 2 * Particles.Elements;
+		int    N       = 2 * Particles.size();
 		int    i       = 0;
 		int    j       = 0;
 		double yin[N];
 		double yout[N];
 		
-		while(i < Particles.Elements)
+		while(i < Particles.size())
 		{
 			j = 2 * i;
 			yin[j]     = Particles[i].r;
@@ -257,7 +257,7 @@ int Simulation::Setup(Array< particle<double> > NewParticles)
 		
 		i = 0;
 		j = 0;
-		while(i < Particles.Elements)
+		while(i < Particles.size())
 		{
 			j = 2 * i;
 			Particles[i].r = yout[j];
@@ -282,7 +282,7 @@ int Simulation::Reset()
 	return result;
 }
 
-int Simulation::Start(Array< particle<double> > Particles)
+int Simulation::Start(vector< particle<double> > Particles)
 {
 	int result = -1;
 	
@@ -373,7 +373,7 @@ int Simulation::Simulate()
 {
 	int    result    =  0;
 	int    reps      =  1; // This is ignored when we have a set time-step.
-	int    N         =  2 * Particles.Elements;
+	int    N         =  2 * Particles.size();
 	//int    n         =  0;
 	int    i         =  0;
 	int    j         =  0;
@@ -408,7 +408,7 @@ int Simulation::Simulate()
 		int n;
 		i = 0;
 		j = 0;
-		while(i < Particles.Elements)
+		while(i < Particles.size())
 		{
 			j = 2 * i;
 			yin[j]     = Particles[i].r;
@@ -443,7 +443,7 @@ int Simulation::Simulate()
 		i = 0;
 		j = 0;
 		double GridLength = GridFinish - GridStart;
-		while(i < Particles.Elements)
+		while(i < Particles.size())
 		{
 			j = 2 * i;
 			while(yout[j] < GridStart) yout[j] += GridLength;
@@ -530,7 +530,7 @@ double Simulation::Energy()
 	int    i       = 0;
 	double v       = 0;
 	double r;
-	int    N       = 2 * Particles.Elements;
+	int    N       = 2 * Particles.size();
 	double yin[N];
 	double yout[N];
 	
@@ -539,7 +539,7 @@ double Simulation::Energy()
 		int i = 0;
 		int j = 0;
 		
-		while(i < Particles.Elements)
+		while(i < Particles.size())
 		{
 			j = 2 * i;
 			yin[j]     = Particles[i].r;
@@ -550,7 +550,7 @@ double Simulation::Energy()
 		this->LeapFrogPrep(yout, yin, N, -TimeIncrement);
 	}
 	
-	while(i < Particles.Elements)
+	while(i < Particles.size())
 	{
 		r = Particles[i].r;
 		if(TimeIncrement == 0)
@@ -580,7 +580,7 @@ double Simulation::Momentum()
 	int    i       = 0;
 	double v       = 0;
 	double r;
-	int    N       = 2 * Particles.Elements;
+	int    N       = 2 * Particles.size();
 	double yin[N];
 	double yout[N];
 	
@@ -589,7 +589,7 @@ double Simulation::Momentum()
 		int i = 0;
 		int j = 0;
 		
-		while(i < Particles.Elements)
+		while(i < Particles.size())
 		{
 			j = 2 * i;
 			yin[j]     = Particles[i].r;
@@ -600,7 +600,7 @@ double Simulation::Momentum()
 		this->LeapFrogPrep(yout, yin, N, -TimeIncrement);
 	}
 	
-	while(i < Particles.Elements)
+	while(i < Particles.size())
 	{
 		r = Particles[i].r;
 		if(TimeIncrement == 0)
@@ -639,7 +639,7 @@ double Simulation::ElectricField(double r)
 	switch(Weighting)
 	{
 		case 0:
-			a = lround((r - GridStart) / dr); if(a >= EField.Elements) a -= EField.Elements;
+			a = lround((r - GridStart) / dr); if(a >= EField.size()) a -= EField.size();
 			result = EField[a];
 			break;
 		case 1:
@@ -648,7 +648,7 @@ double Simulation::ElectricField(double r)
 			{
 				a--;
 			}
-			b = (a < EField.Elements - 1) ? a + 1 : a + 1 - EField.Elements;
+			b = (a < EField.size() - 1) ? a + 1 : a + 1 - EField.size();
 			subterm = (r - GridStart) / dr - a;
 			result = (1 - subterm) * EField[a] + subterm * EField[b];
 			
@@ -686,22 +686,22 @@ double Simulation::ElectricField(double r)
 //
 int Simulation::BuildChargeDensity()
 {
-	int    result = -1;                     // Return value of function, returns 0 on success.
-	int    a;                               // Grid point to the left of the particle.
-	int    b;                               // Grid point to the right of the particle.
-	int    n      = 0;                      // Space index.
-	int    N      = ChargeDensity.Elements; // Number of grid points.
-	double dr     = GridIncrement;          // Space between grid points.
-	double r;                               // Position of particle.
-	double rho;                             // Charge of particle / grid spacing.
-	double rhob;                            // Charge density contribution from particle to point a.
-	double rhoa;                            // Charge density contribution from particle to point b.
+	int    result = -1;                   // Return value of function, returns 0 on success.
+	int    a;                             // Grid point to the left of the particle.
+	int    b;                             // Grid point to the right of the particle.
+	int    n      = 0;                    // Space index.
+	int    N      = ChargeDensity.size(); // Number of grid points.
+	double dr     = GridIncrement;        // Space between grid points.
+	double r;                             // Position of particle.
+	double rho;                           // Charge of particle / grid spacing.
+	double rhob;                          // Charge density contribution from particle to point a.
+	double rhoa;                          // Charge density contribution from particle to point b.
 	double TotalCharge = 0;
 	double NeutralisingBackground = 0;
 	
 	// Get Total Charge
 	n = 0;
-	while(n < Particles.Elements)
+	while(n < Particles.size())
 	{
 		TotalCharge += Particles[n++].q;
 	}
@@ -716,7 +716,7 @@ int Simulation::BuildChargeDensity()
 	
 	// Iterate over all particles.
 	n = 0;
-	while(n < Particles.Elements)
+	while(n < Particles.size())
 	{
 		r = Particles[n].r;
 		rho = Particles[n].q / dr;
@@ -784,7 +784,7 @@ int Simulation::BuildChargeDensity()
 	/*n = 0;
 	while(n < N)
 	{
-		//ChargeDensity[n] = 3e-1 * sin((n * GridIncrement * 2 * 6 * pi) / (GridFinish - GridStart)) * (Particles.Elements * e) / (GridFinish - GridStart);
+		//ChargeDensity[n] = 3e-1 * sin((n * GridIncrement * 2 * 6 * pi) / (GridFinish - GridStart)) * (Particles.size() * e) / (GridFinish - GridStart);
 		ChargeDensity[n] = sin((n * GridIncrement * 2 * 6 * pi) / (GridFinish - GridStart));
 		//ChargeDensity[n] = epsilon_zero;
 		n++;
@@ -797,24 +797,24 @@ int Simulation::BuildChargeDensity()
 
 int Simulation::BuildElectricField()
 {
-	int            result    = -1;
-	int            n;                                                    // Standard space index
-	int            m;                                                    // Fourier space index
-	int            N         = ChargeDensity.Elements;                   // Number of grid points
-	double         dr        = GridIncrement;
-	double         k;                                                    // Wavenumber
-	double         k_subterm = (2 * pi) / (N * dr);
-	//double         kappa;
-	double         K;
-	double         m_correct = -N / 2;
-	Array<complex> ESPotentialK(N);
-	//Array<complex> EFieldK(N);
-	Array<complex> Buffer(N);
+	int             result    = -1;
+	int             n;                                // Standard space index
+	int             m;                                // Fourier space index
+	int             N         = ChargeDensity.size(); // Number of grid points
+	double          dr        = GridIncrement;
+	double          k;                                // Wavenumber
+	double          k_subterm = (2 * pi) / (N * dr);
+	//double          kappa;
+	double          K;
+	double          m_correct = -N / 2;
+	vector<complex> ESPotentialK(N);
+	//vector<complex> EFieldK(N);
+	vector<complex> Buffer(N);
 	
 	ESEnergy = 0;
-	Transformer.Fast(ChargeDensityK.c_array(), ChargeDensity.c_array(), N, 1);
-	//Transformer.Normal(ChargeDensityK.c_array(), ChargeDensity.c_array(), N, 1);
-	Transformer.DodgyCorrection(ChargeDensityK.c_array(), N);
+	Transformer.Fast(&ChargeDensityK[0], &ChargeDensity[0], N, 1);
+	//Transformer.Normal(&ChargeDensityK[0], &ChargeDensity[0], N, 1);
+	Transformer.DodgyCorrection(&ChargeDensityK[0], N);
 	m = 0;
 	while(m < N)
 	{
@@ -827,15 +827,15 @@ int Simulation::BuildElectricField()
 		m++;
 	}
 	//ESEnergy /= 82;
-	Transformer.DodgyCorrection(ChargeDensityK.c_array(), N);
-	Transformer.Fast(ChargeDensityTest.c_array(), ChargeDensityK.c_array(), N, -1);
-	//Transformer.Normal(ChargeDensityTest.c_array(), ChargeDensityK.c_array(), N, -1);
-	Transformer.DodgyCorrection(ESPotentialK.c_array(), N);
-	Transformer.Fast(ESPotential.c_array(), ESPotentialK.c_array(), N, -1);
-	//Transformer.Normal(ESPotential.c_array(), ESPotentialK.c_array(), N, -1);
-	//Transformer.DodgyCorrection(EFieldK.c_array(), N);
-	//Transformer.Fast(EField.c_array(), EFieldK.c_array(), N, -1);
-	//Transformer.Normal(EField.c_array(), EFieldK.c_array(), N, -1);
+	Transformer.DodgyCorrection(&ChargeDensityK[0], N);
+	Transformer.Fast(&ChargeDensityTest[0], &ChargeDensityK[0], N, -1);
+	//Transformer.Normal(&ChargeDensityTest[0], &ChargeDensityK[0], N, -1);
+	Transformer.DodgyCorrection(&ESPotentialK[0], N);
+	Transformer.Fast(&ESPotential[0], &ESPotentialK[0], N, -1);
+	//Transformer.Normal(&ESPotential[0], &ESPotentialK[0], N, -1);
+	//Transformer.DodgyCorrection(&EFieldK[0], N);
+	//Transformer.Fast(&EField[0], &EFieldK[0], N, -1);
+	//Transformer.Normal(&EField[0], &EFieldK[0], N, -1);
 	n = 0;
 	while(n < N)
 	{
@@ -855,7 +855,7 @@ int Simulation::InterpolateElectricField()
 	int result = 1;
 	int i      = 0;
 	
-	while(i < Particles.Elements)
+	while(i < Particles.size())
 	{
 		Particles[i].E = ElectricField(Particles[i].r);
 		i++;

@@ -104,7 +104,7 @@ int GLDraw::Draw()
 	///*
 #ifdef HAVE_GLUT
 	i = 0;
-	while(i < Particles.Elements)
+	while(i < Particles.size())
 	{
 		// Assign colour according to charge.
 		if(Particles[i].q < 0)
@@ -145,12 +145,12 @@ int GLDraw::Draw()
 	//
 	// Draw charge density.
 	//
-	//scaling = 1 / ( ( /*(Particles.Elements / ChargeDensity.Elements) * e **/ 1) / GridIncrement);
-	scaling = 1 / ( (Particles.Elements * 1/*e*/) / (GridFinish - GridStart) );
+	//scaling = 1 / ( ( /*(Particles.size() / ChargeDensity.size()) * e **/ 1) / GridIncrement);
+	scaling = 1 / ( (Particles.size() * 1/*e*/) / (GridFinish - GridStart) );
 	glBegin(GL_LINES);
 	glColor4d(charge_density_colour[0], charge_density_colour[1], charge_density_colour[2], charge_density_colour[3]);
 	i = 0;
-	while(i < ChargeDensity.Elements)
+	while(i < ChargeDensity.size())
 	{
 		//std::cout << ChargeDensity[i] << "\t* " << scaling << "\t= " << ChargeDensity[i] * scaling << std::endl;
 		glVertex3d(x_scaling * (GridStart + i * GridIncrement), ChargeDensity[i] * scaling, 0);
@@ -171,7 +171,7 @@ int GLDraw::Draw()
 	glBegin(GL_LINES);
 	glColor4d(electric_field_colour[0], electric_field_colour[1], electric_field_colour[2], electric_field_colour[3]);
 	i = 0;
-	while(i < EField.Elements)
+	while(i < EField.size())
 	{
 		glVertex3d(x_scaling * (GridStart + i * GridIncrement), EField[i] * scaling, 0);
 		if(i != 0)

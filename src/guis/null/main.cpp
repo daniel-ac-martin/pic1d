@@ -17,7 +17,6 @@
  */
 
 #include "main.h"
-#include "../../array.h"
 #include "../../complex.h"
 #include <time.h>
 
@@ -38,9 +37,9 @@ void NullMain::NullMainCommon(arguments Args)
 	std::string filename;
 	char buffer[8] = "";
 	
-	OutputPhaseSpace = new std::ofstream[Species.Elements];
+	OutputPhaseSpace = new std::ofstream[Species.size()];
 	
-	while(n < Species.Elements)
+	while(n < Species.size())
 	{
 		filename  = "-PhaseSpace-";
 		filename += gcvt((double)n, 3, buffer);
@@ -98,12 +97,12 @@ int NullMain::Draw(bool light)
 		// Output particle based information.
 		//
 		n = 0;
-		while(n < Particles.Elements)
+		while(n < Particles.size())
 		{
 			r = Particles[n].r;
 			v = Particles[n].v;
 			m = 0;
-			while( (m < Species.Elements) && (Particles[n].group != &Species[m]) ) m++;
+			while( (m < Species.size()) && (Particles[n].group != &Species[m]) ) m++;
 			//                     Time         Location     Quantity
 			OutputPhaseSpace[m] << t << "\t" << r << "\t" << v << std::endl;
 			n++;
@@ -170,14 +169,14 @@ int NullMain::Execute()
 	              << "set zlabel \"Velocity\"\n"
 	              << "splot ";
 	n = 0;
-	while(n < Species.Elements)
+	while(n < Species.size())
 	{
 		filename  = "-PhaseSpace-";
 		filename += gcvt((double)n, 3, buffer);
 		filename  = GetFileName(filename + ".data", Output);
 		GnuPlotScript << "\"" << filename << "\" using 2:1:3 title \"" << Species[n].name << "\"";
 		n++;
-		if(n < Species.Elements)
+		if(n < Species.size())
 		{
 			GnuPlotScript << ", \\\n      ";
 		}
@@ -205,14 +204,14 @@ int NullMain::Execute()
 		              << "set ylabel \"Velocity\"\n"
 		              << "plot ";
 		m = 0;
-		while(m < Species.Elements)
+		while(m < Species.size())
 		{
 			filename  = "-PhaseSpace-";
 			filename += gcvt((double)m, 3, buffer);
 			filename  = GetFileName(filename + ".data", Output);
 			GnuPlotScript << "\"" << filename << "\" using 2:3 every ::" << n * Species[m].particles << "::" << (n + 1) * Species[m].particles - 1 << " title \"" << Species[m].name << "\"";
 			m++;
-			if(m < Species.Elements)
+			if(m < Species.size())
 			{
 				GnuPlotScript << ", \\\n     ";
 			}
@@ -244,8 +243,8 @@ int NullMain::Execute()
 	              << "set xlabel \"Position\"\n"
 	              << "set ylabel \"Time\"\n"
 	              << "set zlabel \"Charge Density\"\n"
-	              << "splot "/* << -1 * Particles.Elements / (GridFinish - GridStart) + 0.001 * 4 * pi / (GridFinish - GridStart) << " notitle, \\\n"
-	              << "      " << -1 * Particles.Elements / (GridFinish - GridStart) - 0.001 * 4 * pi / (GridFinish - GridStart) << " notitle, \\\n"*/
+	              << "splot "/* << -1 * Particles.size() / (GridFinish - GridStart) + 0.001 * 4 * pi / (GridFinish - GridStart) << " notitle, \\\n"
+	              << "      " << -1 * Particles.size() / (GridFinish - GridStart) - 0.001 * 4 * pi / (GridFinish - GridStart) << " notitle, \\\n"*/
 	              << "      \"" << GetFileName("-ChargeDensity.data", Output) << "\" using 2:1:3 notitle\n"
 	              << "set terminal png\n"
 	              << "set output \"" << GetFileName("-ChargeDensity.png", Output) << "\"\n"
@@ -265,8 +264,8 @@ int NullMain::Execute()
 	      	        << "set title \"Charge Density - t = " << n * snap_step << "\"\n"
 	      	        << "set xlabel \"Position\"\n"
 	      	        << "set ylabel \"Charge Density\"\n"
-	      	        << "plot "/* << -1 * Particles.Elements / (GridFinish - GridStart) << "-" << 0.001 * (2 * pi * 1.0 / (GridFinish - GridStart)) / ((GridFinish - GridStart)/Particles.Elements) << "*sin(" << 2 * pi * 1.0 / (GridFinish - GridStart) << "*(x-" << GridStart << ")) notitle, \\\n"*/
-	      	        << "     \"" << GetFileName("-ChargeDensity.data", Output) << "\" using 2:3 every ::" << n * ChargeDensity.Elements << "::" << (n + 1) * ChargeDensity.Elements - 1 << " notitle\n"
+	      	        << "plot "/* << -1 * Particles.size() / (GridFinish - GridStart) << "-" << 0.001 * (2 * pi * 1.0 / (GridFinish - GridStart)) / ((GridFinish - GridStart)/Particles.size()) << "*sin(" << 2 * pi * 1.0 / (GridFinish - GridStart) << "*(x-" << GridStart << ")) notitle, \\\n"*/
+	      	        << "     \"" << GetFileName("-ChargeDensity.data", Output) << "\" using 2:3 every ::" << n * ChargeDensity.size() << "::" << (n + 1) * ChargeDensity.size() - 1 << " notitle\n"
 	      	        << "set terminal png\n"
 	      	        << "set output \"" << GetFileName(ext + ".png", Output) << "\"\n"
 	      	        << "set size " << size << "\n"
@@ -283,8 +282,8 @@ int NullMain::Execute()
 	              << "set xlabel \"Wavenumber\"\n"
 	              << "set ylabel \"Time\"\n"
 	              << "set zlabel \"Charge Density K\"\n"
-	              << "splot " << -1 * Particles.Elements / (GridFinish - GridStart) + 0.001 * (GridFinish - GridStart) / Particles.Elements << " notitle, \\\n"
-	              << "      " << -1 * Particles.Elements / (GridFinish - GridStart) - 0.001 * (GridFinish - GridStart) / Particles.Elements << " notitle, \\\n"
+	              << "splot " << -1 * Particles.size() / (GridFinish - GridStart) + 0.001 * (GridFinish - GridStart) / Particles.size() << " notitle, \\\n"
+	              << "      " << -1 * Particles.size() / (GridFinish - GridStart) - 0.001 * (GridFinish - GridStart) / Particles.size() << " notitle, \\\n"
 	              << "      \"" << GetFileName("-ChargeDensityK.data", Output) << "\" using 2:1:3 title \"\"\n"
 	              << "set terminal png\n"
 	              << "set output \"" << GetFileName("-ChargeDensityK.png", Output) << "\"\n"
@@ -303,7 +302,7 @@ int NullMain::Execute()
 		              << "set title \"Charge Density K - t = " << n * snap_step << "\"\n"
 		              << "set xlabel \"Wavenumber\"\n"
 		              << "set ylabel \"Charge Density K\"\n"
-		              << "plot \"" << GetFileName("-ChargeDensityK.data", Output) << "\" using 2:3 every ::" << n * ChargeDensityK.Elements << "::" << (n + 1) * ChargeDensityK.Elements - 1 << " notitle\n"
+		              << "plot \"" << GetFileName("-ChargeDensityK.data", Output) << "\" using 2:3 every ::" << n * ChargeDensityK.size() << "::" << (n + 1) * ChargeDensityK.size() - 1 << " notitle\n"
 		              << "set terminal png\n"
 		              << "set output \"" << GetFileName(ext + ".png", Output) << "\"\n"
 		              << "set size " << size << "\n"
@@ -321,8 +320,8 @@ int NullMain::Execute()
 	              << "set xlabel \"Position\"\n"
 	              << "set ylabel \"Time\"\n"
 	              << "set zlabel \"Electric Field\"\n"
-	              << "splot " /*<< 0.001 * (GridFinish - GridStart) * (GridFinish - GridStart) / (Particles.Elements * 2 * 2 * pi) << " notitle, \\\n"
-	              << "      " << -0.001 * (GridFinish - GridStart) * (GridFinish - GridStart) / (Particles.Elements * 2 * 2 * pi) << " notitle, \\\n"*/
+	              << "splot " /*<< 0.001 * (GridFinish - GridStart) * (GridFinish - GridStart) / (Particles.size() * 2 * 2 * pi) << " notitle, \\\n"
+	              << "      " << -0.001 * (GridFinish - GridStart) * (GridFinish - GridStart) / (Particles.size() * 2 * 2 * pi) << " notitle, \\\n"*/
 	              << "      \"" << GetFileName("-ElectricField.data", Output) << "\" using 2:1:3 title \"\"\n"
 	              << "set terminal png\n"
 	              << "set output \"" << GetFileName("-ElectricField.png", Output) << "\"\n"
@@ -342,9 +341,9 @@ int NullMain::Execute()
 		              << "set title \"Electric Field - t = " << n * snap_step << "\"\n"
 		              << "set xlabel \"Position\"\n"
 		              << "set ylabel \"Electric Field\"\n"
-		              << "plot "/* << 0.001 * (GridFinish - GridStart) * (GridFinish - GridStart) / (Particles.Elements * 2 * 2 * pi) << " notitle, \\\n"
-		              << "     " << -0.001 * (GridFinish - GridStart) * (GridFinish - GridStart) / (Particles.Elements * 2 * 2 * pi) << " notitle, \\\n"*/
-		              << "     \"" << GetFileName("-ElectricField.data", Output) << "\" using 2:3 every ::" << n * EField.Elements << "::" << (n + 1) * EField.Elements - 1 << " notitle\n"
+		              << "plot "/* << 0.001 * (GridFinish - GridStart) * (GridFinish - GridStart) / (Particles.size() * 2 * 2 * pi) << " notitle, \\\n"
+		              << "     " << -0.001 * (GridFinish - GridStart) * (GridFinish - GridStart) / (Particles.size() * 2 * 2 * pi) << " notitle, \\\n"*/
+		              << "     \"" << GetFileName("-ElectricField.data", Output) << "\" using 2:3 every ::" << n * EField.size() << "::" << (n + 1) * EField.size() - 1 << " notitle\n"
 		              << "set terminal png\n"
 		              << "set output \"" << GetFileName(ext + ".png", Output) << "\"\n"
 		              << "set size " << size << "\n"

@@ -21,12 +21,14 @@
 
 #include "config.h"
 #include "guis/guis.h"
-#include "array.h"
+#include <vector>
 
 extern "C"
 {
 #include <argp.h>
 }
+
+using std::vector;
 
 struct species_arguments
 {
@@ -54,26 +56,25 @@ struct species_arguments
 
 struct arguments
 {
-//	char*    args[1];
-	bool                     debug;
-	gui_enum                 gui;
-	bool                     gui_set;
-	char const *             output;
-	bool                     output_set;
-	int                      energy_or_momentum;
-	bool                     energy_or_momentum_set;
-	int                      points;
-	bool                     points_set;
-	double                   length;
-	bool                     length_set;
-	Array<species_arguments> species;
-	double                   time_step;
-	bool                     time_step_set;
-	int                      total_time_steps;
-	bool                     total_time_steps_set;
-	int                      weighting;
-	bool                     weighting_set;
-	bool                     verbose;
+	bool                      debug;
+	gui_enum                  gui;
+	bool                      gui_set;
+	char const *              output;
+	bool                      output_set;
+	int                       energy_or_momentum;
+	bool                      energy_or_momentum_set;
+	int                       points;
+	bool                      points_set;
+	double                    length;
+	bool                      length_set;
+	vector<species_arguments> species;
+	double                    time_step;
+	bool                      time_step_set;
+	int                       total_time_steps;
+	bool                      total_time_steps_set;
+	int                       weighting;
+	bool                      weighting_set;
+	bool                      verbose;
 };
 
 class Arguments
@@ -86,14 +87,14 @@ class Arguments
 		char *                   NameAndVersion;
 		char *                   Contact;
 		static argp_option       Options[12];
-		static error_t           Parse(int key, char* value, argp_state* state);
+		static error_t           Parse(int key, char * value, argp_state * state);
 		static char const *      ArgsExample;
 		static char const *      Description;
 		static arguments         Defaults;
 		static argp_child        Children[2];
 		static argp              ArgP;
 		static argp_option       SpeciesOptions[10];
-		static error_t           SpeciesParse(int key, char* value, argp_state* state);
+		static error_t           SpeciesParse(int key, char * value, argp_state * state);
 		static char const *      SpeciesArgsExample;
 		static char const *      SpeciesDescription;
 		static species_arguments SpeciesDefaults;

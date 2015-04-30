@@ -23,38 +23,41 @@ class Simulation;
 
 #include "config.h"
 #include "arguments.h"
-#include "array.h"
 #include "interface.h"
 #include "ode_solver.h"
 #include "fourier.h"
 
 #include <cmath>
 #include <sstream>
+#include <vector>
+
+using std::string;
+using std::vector;
 
 template <class vector>
 struct species
 {
-	std::string name;
-	int         particles;
-	double      charge2mass;
-	double      plasma_frequency;
-	int         mode;
-	vector      r1;
-	vector      v0;
-	vector      v1;
-	vector      theta_r;
-	vector      theta_v;
+	string name;
+	int    particles;
+	double charge2mass;
+	double plasma_frequency;
+	int    mode;
+	vector r1;
+	vector v0;
+	vector v1;
+	vector theta_r;
+	vector theta_v;
 };
 
 template <class vector>
 struct particle
 {
-	double           q; // Charge.
-	double           m; // Mass.
-	vector           r; // Position vector.
-	vector           v; // Velocity vector.
-	vector           E; // Electric field value at the particle.
-	species<vector>* group;
+	double            q; // Charge.
+	double            m; // Mass.
+	vector            r; // Position vector.
+	vector            v; // Velocity vector.
+	vector            E; // Electric field value at the particle.
+	species<vector> * group;
 };
 
 class Simulation:
@@ -65,38 +68,37 @@ class Simulation:
 		Simulation(arguments Args);
 		virtual ~Simulation();
 		
-		virtual int Start(Array< particle<double> > Particles);
+		virtual int Start(vector< particle<double> > Particles);
 		virtual int Restart();
 		virtual int Unpause();
 		virtual int Simulate();
 	protected:
-		double                    LastTime;
-		double                    TimeIncrement;
-		double                    FinalTime;
-		Array< species<double> >  Species;
-		Array< particle<double> > InitialParticles;
-		Array< particle<double> > Particles;
-		//Array< particle<double> > GParticles;
-		double                    InitialEnergy;
-		double                    InitialMomentum;
-		double                    ESEnergy;
-		int                       ID;
-		int                       Weighting;
-		double                    GridStart;
-		double                    GridFinish;
-		double                    GridLength;
-		double                    GridIncrement;
-		int                       GridCells;
-		Array<double>             ChargeDensity;
-		Array<complex>            ChargeDensityK;
-		Array<double>             ChargeDensityTest;
-		Array<double>             ESPotential;
-		Array<double>             EField;
-		Fourier                   Transformer;
-		std::string               Output;
+		double                     LastTime;
+		double                     TimeIncrement;
+		double                     FinalTime;
+		vector< species<double> >  Species;
+		vector< particle<double> > InitialParticles;
+		vector< particle<double> > Particles;
+		double                     InitialEnergy;
+		double                     InitialMomentum;
+		double                     ESEnergy;
+		int                        ID;
+		int                        Weighting;
+		double                     GridStart;
+		double                     GridFinish;
+		double                     GridLength;
+		double                     GridIncrement;
+		int                        GridCells;
+		vector<double>             ChargeDensity;
+		vector<complex>            ChargeDensityK;
+		vector<double>             ChargeDensityTest;
+		vector<double>             ESPotential;
+		vector<double>             EField;
+		Fourier                    Transformer;
+		string                     Output;
 		
 		virtual void   DefaultSetup();
-		virtual int    Setup(Array< particle<double> > NewParticles);
+		virtual int    Setup(vector< particle<double> > NewParticles);
 		virtual int    Reset();
 		virtual void   Derivatives(double* dy, double* y, int N);
 		virtual double Energy();
