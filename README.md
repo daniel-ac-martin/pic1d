@@ -1,6 +1,8 @@
 __Note:__ The vast majority of this code was written in a rush, back in 2006.
 As such there is a lot wrong with it. Notably, the gnuplot output mode is
-buggy and the code does *NOT* represent good, modern C++ practice.
+buggy and the code does *NOT* represent good, modern C++ practice. I have
+only updated the code to the point that it will compile on a more modern C++
+compiler (GCC 4.8.3).
 
 It was written as one of the two main projects for my M.Phys, the [report]
 for which is available online.
