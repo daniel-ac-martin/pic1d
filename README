@@ -29,3 +29,12 @@ Usage
 Please see the full documentation, either by running `info pic1d' or by
 viewing the files in the doc/ directory of this package. Additionally, 
 the output of `plasma --help' should give you some rough guidance.
+
+Example - The 2-stream instability
+----------------------------------
+
+To simulate the 2-stream instability call pic1d with the following arguments:
+
+	pic1d -l 6.283 -p 512 -t 0.1 -T 500 -W 1 \
+	      --species -P 2048 -m 1 -q -1 -w 1 --v0 1 --x1 0.0001 \
+	      --species -P 2048 -m 1 -q -1 -w 1 --v0 -1 --x1 -0.0001
