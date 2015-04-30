@@ -16,6 +16,6 @@ pic1d.1: $(top_srcdir)/configure.ac $(top_srcdir)/src/arguments.cpp $(top_srcdir
 AM_MAKEINFOFLAGS = --no-split
 
 info_TEXINFOS   = pic1d.texi
-plasma_TEXINFOS = fdl.texi
+pic1d_TEXINFOS = fdl.texi
 
 EXTRA_DIST = pic1d.dvi pic1d.pdf pic1d.ps

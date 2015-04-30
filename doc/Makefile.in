@@ -80,7 +80,8 @@ host_triplet = @host@
 target_triplet = @target@
 subdir = doc
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/build-aux/texinfo.tex $(dist_man_MANS)
+	$(pic1d_TEXINFOS) $(top_srcdir)/build-aux/texinfo.tex \
+	$(dist_man_MANS)
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
 	$(top_srcdir)/m4/absolute-header.m4 $(top_srcdir)/m4/alloca.m4 \
@@ -929,7 +930,7 @@ MAINTAINERCLEANFILES = $(dist_man_MANS)
 ###
 AM_MAKEINFOFLAGS = --no-split
 info_TEXINFOS = pic1d.texi
-plasma_TEXINFOS = fdl.texi
+pic1d_TEXINFOS = fdl.texi
 EXTRA_DIST = pic1d.dvi pic1d.pdf pic1d.ps
 all: all-am
 
@@ -1019,10 +1020,10 @@ clean-libtool:
 	    rm -rf $(@:.html=); else rm -Rf $(@:.html=.htp) $@; fi; \
 	  exit 1; \
 	fi
-$(srcdir)/pic1d.info: pic1d.texi 
-pic1d.dvi: pic1d.texi 
-pic1d.pdf: pic1d.texi 
-pic1d.html: pic1d.texi 
+$(srcdir)/pic1d.info: pic1d.texi $(pic1d_TEXINFOS)
+pic1d.dvi: pic1d.texi $(pic1d_TEXINFOS)
+pic1d.pdf: pic1d.texi $(pic1d_TEXINFOS)
+pic1d.html: pic1d.texi $(pic1d_TEXINFOS)
 .dvi.ps:
 	$(AM_V_DVIPS)TEXINPUTS="$(am__TEXINFO_TEX_DIR)$(PATH_SEPARATOR)$$TEXINPUTS" \
 	$(DVIPS) $(AM_V_texinfo) -o $@ $<
