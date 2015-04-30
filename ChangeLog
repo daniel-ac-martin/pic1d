@@ -1,0 +1,6 @@
+v0.2
+	It can work out the charge distribution and the resulting electric
+		field but the resulting field is ignored when moving the 
+		particles.
+v0.1
+	It can do SHM.

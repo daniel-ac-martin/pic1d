@@ -1,0 +1,37 @@
+Windows Installation Instructions
+*********************************
+
+Copyright (C) 2007 Daniel Martin.
+
+This file is free documentation; Daniel Martin gives unlimited
+permission to copy, distribute and modify it.
+
+Introduction
+============
+
+You have two options for installing this package on Windows. You can
+install a binaries provided (assuming you have the Windows binary
+package as opposed to the standard source package) or you can build from
+the source code. Both these methods are described below.
+
+Installing the Binary
+=====================
+
+Simply copy the directory in which this file resides to a place of your
+choosing. In most cases you would want to copy it into 
+`C:/Program Files' but this need not be the case.
+
+   The binaries for this package are to be found in the bin/ directory. If
+you want to make shortcuts to the program (for example in your `Start
+Menu') you should make them to these files.
+
+Building from Source
+==================== 
+
+In order to build from source you will probably need a lot of GNU
+software (bash, make, gcc etc). They can be obtained through either the
+MinGW or Cygwin projects. If you wish to use any other method for
+building I'm afraid you are on your own.
+
+   Please see the instructions in INSTALL. INSTALL can be opened in a
+standard text editor.

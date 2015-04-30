@@ -1,0 +1,75 @@
+\input texinfo @c -*-texinfo-*-
+@c %**start of header
+@setfilename pic1d.info
+@settitle PIC1D Manual 1.0
+@c %**end of header
+
+@copying
+This is the PIC1D manual, version 1.0.
+
+Copyright @copyright{} 2006 Daniel Martin.
+@end copying
+
+@titlepage
+@title PIC1D
+@c The following two commands start the copyright page.
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c Output the table of contents at the beginning.
+@contents
+
+@ifnottex
+@node Top
+@top Short Sample
+
+@insertcopying
+@end ifnottex
+
+@menu
+* Introduction::      The first chapter is the
+                         only chapter in this sample.
+* Methods::
+* GNU FDL::
+* Index::              Complete index.
+@end menu
+
+@node Introduction, Methods, Top, Top
+@chapter Introduction
+
+@cindex chapter, first
+
+PIC1D is a plasma simulator. Plasmas are the 4th state of matter, the state which is energetically above a gas. When a gas becomes so hot that its electrons free themselves from their ions, the resulting sea of free electrons and ions is called a plasma.
+
+@node Methods, GNU FDL, Introduction, Top
+@chapter Methods
+
+In this chapter we will discus the methods used in plasma to achieve the over-all simulation. Plasma simulation can be sumarised by 3 computational components; time-`integration' of the equations of motion of the particles, integration of the electric and magnetic fields, and weighting.
+
+@cindex index entry, another
+Here is a numbered list.
+
+@enumerate
+@item
+This is the first item.
+
+@item
+This is the second item.
+@end enumerate
+
+@node GNU FDL, Index, Methods, Top
+@appendix GNU FDL
+@menu
+* GNU Free Documentation License::
+@end menu
+
+@include fdl.texi
+
+@node Index, , GNU FDL, Top
+@unnumbered Index
+
+@printindex cp
+
+@bye

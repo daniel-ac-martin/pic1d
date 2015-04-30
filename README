@@ -1,0 +1,31 @@
+PIC1D, the Plasma Simulator
+****************************
+
+Copyright (C) 2007 Daniel A.C. Martin.
+
+This file is free documentation; Daniel A.C. Martin gives unlimited
+permission to copy, distribute and modify it.
+
+Introduction
+============
+
+PIC1D is a plasma simulator written by Daniel A.C. Martin. It is `free
+software' meaning that you have the freedom to study, modify, and share
+it as well as share your modifications. You deserve free software, don't
+accept anything less.
+
+   This software may contain bugs, and should only be used for research
+purposes if the user is willing to study the code and where necessary
+make the modifications he/she requires.
+
+Installation
+============
+
+Please see the INSTALL file.
+
+Usage
+=====
+
+Please see the full documentation, either by running `info pic1d' or by
+viewing the files in the doc/ directory of this package. Additionally, 
+the output of `plasma --help' should give you some rough guidance.
