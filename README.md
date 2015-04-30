@@ -1,6 +1,6 @@
-__Note:__ The vast majority of this code was written in a rush back in 2006.
-As such there is a lot wrong with it. Notable the gnuplot output mode is
-buggy and the code does NOT represent good, modern C++ practice.
+__Note:__ The vast majority of this code was written in a rush, back in 2006.
+As such there is a lot wrong with it. Notably, the gnuplot output mode is
+buggy and the code does *NOT* represent good, modern C++ practice.
 
 It was written as one of the two main projects for my M.Phys, the [report]
 for which is available online.
