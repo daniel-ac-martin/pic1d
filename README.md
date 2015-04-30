@@ -1,18 +1,20 @@
-	Note: The vast majority of this code was written in a rush back in 2006. As
-	such there is a lot wrong with it. Notable the gnuplot output mode is buggy
-	and the code does NOT represent good, modern C++ practice.
-	
-	It was written as one of the two main projects for my M.Phys, the [report]
-	for which is available online.
-	
-	It has been made public at the request of one of the staff of Benue State
-	University, Nigeria.
-	
-	Those wishing to conduct similar simulations might be better served by
-	[XES1] for which the code is far more mature.
+__Note:__ The vast majority of this code was written in a rush back in 2006.
+As such there is a lot wrong with it. Notable the gnuplot output mode is
+buggy and the code does NOT represent good, modern C++ practice.
+
+It was written as one of the two main projects for my M.Phys, the [report]
+for which is available online.
+
+It has been made public at the request of one of the staff of Benue State
+University, Nigeria.
+
+Those wishing to conduct similar simulations might be better served by
+[XES1] for which the code is far more mature.
+
+--------------------------------------------------------------------------------
 
 PIC1D, the Plasma Simulator
-****************************
+===========================
 
 Copyright (C) 2007 Daniel A.C. Martin.
 
