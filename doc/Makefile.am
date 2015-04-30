@@ -8,7 +8,7 @@ MAINTAINERCLEANFILES = $(dist_man_MANS)
 #pic1d.1: $(top_srcdir)/configure.ac $(top_srcdir)/src/arguments.cpp $(top_srcdir)/src/arguments.h
 #	$(HELP2MAN) --output=$@ --name='A plasma simulator.' ../src/plasma$(EXEEXT)
 pic1d.1: $(top_srcdir)/configure.ac $(top_srcdir)/src/arguments.cpp $(top_srcdir)/src/arguments.h
-	$(HELP2MAN) --output=$@ --name='A plasma simulator.' `if [ -x ../src/plasma ]; then echo "../src/pic1d"; else echo "pic1d"; fi;`
+	$(HELP2MAN) --output=$@ --name='A plasma simulator.' `if [ -x ../src/pic1d ]; then echo "../src/pic1d"; else echo "pic1d"; fi;`
 
 ###
 # Proper documentation
